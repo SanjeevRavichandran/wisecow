@@ -1,6 +1,4 @@
 #!/bin/bash
-
-# Define variables
 SOURCE_DIR="/path/to/source" 
 DEST_USER="remote_user"      
 DEST_HOST="remote_host"      
