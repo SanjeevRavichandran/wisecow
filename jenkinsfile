@@ -1,0 +1,44 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('SCM') {
+            steps {
+               git branch: 'main', credentialsId: 'git-token', url: 'https://github.com/SanjeevRavichandran/wisecow.git'
+            }
+        }
+         stage('docker build'){
+        steps{
+          script{
+              bat 'docker build -t sanjeevravichandran/wisecow:1 .'
+
+        }
+    }
+}  
+         stage('docker push'){
+        steps{
+          script{
+             withDockerRegistry(credentialsId: 'docker-token1', url: ' https://index.docker.io/v1/') {
+                  bat 'docker push sanjeevravichandran/wisecow:1'
+}
+}
+}
+}
+         stage('Deploy To Kubernetes') {
+            steps {
+               withKubeConfig(caCertificate: '', clusterName: 'kubernetes', contextName: '', credentialsId: 'k8-cred', namespace: 'wisecow', restrictKubeConfigAccess: false, serverUrl: 'https://172.31.8.146:7000') {
+                        sh "kubectl apply -f deployment-service.yaml"
+                }
+            }
+        }
+        
+         stage('Verify the Deployment') {
+            steps {
+               withKubeConfig(caCertificate: '', clusterName: 'kubernetes', contextName: '', credentialsId: 'k8-cred', namespace: 'wisecow', restrictKubeConfigAccess: false, serverUrl: 'https://172.31.8.146:7000') {
+                        sh "kubectl get pods -n wisecow"
+                        sh "kubectl get svc -n wisecow"
+                }
+            }
+        }
+    }
+}
