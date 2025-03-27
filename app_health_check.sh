@@ -1,5 +1,5 @@
 #!/bin/bash
-URL="http://your-application-url.com"  # Replace with the actual URL
+URL="172.31.8.146:7000"
 LOG_FILE="app_health.log"
 STATUS_CODE=$(curl -o /dev/null -s -w "%{http_code}" "$URL")
 if [ "$STATUS_CODE" -eq 200 ]; then
