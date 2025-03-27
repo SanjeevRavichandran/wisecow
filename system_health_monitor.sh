@@ -7,12 +7,12 @@ DISK_THRESHOLD=90
 echo "===== System Health Check =====" | tee -a "$LOG_FILE"
 date | tee -a "$LOG_FILE"
 CPU_USAGE=$(top -bn1 | grep "Cpu(s)" | awk '{print $2 + $4}')
-CPU_INT=${CPU_USAGE%.*}  # Convert to integer
+CPU_INT=${CPU_USAGE%.*} 
 if [ "$CPU_INT" -gt "$CPU_THRESHOLD" ]; then
     echo "WARNING: High CPU Usage - $CPU_USAGE%" | tee -a "$LOG_FILE"
 fi
 MEM_USAGE=$(free | grep Mem | awk '{print $3/$2 * 100.0}')
-MEM_INT=${MEM_USAGE%.*}  # Convert to integer
+MEM_INT=${MEM_USAGE%.*} 
 if [ "$MEM_INT" -gt "$MEM_THRESHOLD" ]; then
     echo "WARNING: High Memory Usage - $MEM_USAGE%" | tee -a "$LOG_FILE"
 fi
