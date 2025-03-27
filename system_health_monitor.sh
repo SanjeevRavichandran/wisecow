@@ -24,3 +24,14 @@ PROCESS_COUNT=$(ps aux | wc -l)
 echo "Total Running Processes: $PROCESS_COUNT" | tee -a "$LOG_FILE"
 
 echo "===== Health Check Completed =====" | tee -a "$LOG_FILE"
+
+
+
+
+
+
+
+#RUN THE SCRIPT
+
+chmod +x system_health_monitor.sh
+./system_health_monitor.sh
